@@ -74,55 +74,80 @@ int main () {
   }
 
   // function converts the file uploaded to an array, each letter filling an index of the array
-  string fileToVector(fstream& file) { 
-
+  vector<char> fileToVector(string fileName) { 
+     
     vector<char> message;
     char c;
 
-    char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-    const unsigned int letter_to_value[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36};
-    
-    while(file.get(c)){
-       for(int j = 0; j < 26; j++) {
-        if(tolower(c)==alphabet[j]) {
-          message.push_back(c);
+     fstream file(fileName);
+     if(file.is_open()) {
+      while(file.get(c)) {
+        c = tolower(c, locale());
+        message.push_back(c);
+          }
         }
-       }
+        else {
+            cout << "file did not open";
+          }
+
+        file.close();
+
+
+    return message;
+
     }
 
-    for(int i = 0; i < message.size(); i++) {
-          cout << message[i] << endl;
-        }
-    return 0;
-  }
 
   void encrypt() {
 
+    // defines local variables to be used by the encrypt function
         string fileName;
-        fstream file;
         string password;
         int passSeed;
+        int randomSeed;
         vector<char> message;
+        vector<int> randomNums;
+        vector<int> encrypted;
 
+        char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+
+        // prompts user for input for fileName and password
         cout << "Type the name of the file you wish to encrypt. For example, \"text.exe\"" << endl;
         cin >> fileName;
         cout << "Type the password you want to use to decrypt the file." << endl;
         cin >> password;
 
+        // sets the value of the integer passSeed to the value returned by the passwordToNum function
         passSeed = passwordToNum(password);
 
+        //uses passSeed as a parameter for the srand function, setting the seed for the rand function
         srand(passSeed);
+        randomSeed = rand();
 
-        fileToVector(file);
+        // message is now a char vector containing each individual character of the text file. 
+        message = fileToVector(fileName);
 
-
-        file.open(fileName);
-
-        if(file.is_open()) {
-          
+        //fills vector with seeded random numbers
+        for(int i = 0; i < 26; i++) {
+          randomNums.push_back(rand());
         }
-        file << "Writing to the file";
-        file.close();
+        //iterates each letter of the alphabet
+        for(int q = 0; q < 26; q++) {
+          //iterates each letter of the message
+          for(int j = 0; j < message.size(); j++) { 
+            // if the letter of the message is equal to the letter of the alphabet, add randomNums[q] to the end of the vector
+            if(message[j] == alphabet[q]) {
+              encrypted.push_back(randomNums[q]);
+            }
+          }
+        }
+
+        for(int z = 0; z < message.size(); z++) {
+          cout << encrypted[z] << endl;
+        }
+          
+        
         
     }
 
