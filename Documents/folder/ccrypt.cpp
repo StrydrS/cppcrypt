@@ -132,18 +132,20 @@ int main () {
         for(int i = 0; i < 26; i++) {
           randomNums.push_back(rand());
         }
-        //iterates each letter of the alphabet
-        for(int q = 0; q < 26; q++) {
-          //iterates each letter of the message
-          for(int j = 0; j < message.size(); j++) { 
-            // if the letter of the message is equal to the letter of the alphabet, add randomNums[q] to the end of the vector
+        
+        //iterates each letter of the message
+        for(int j = 0; j < message.size(); j++) { 
+          //iterates each letter of the alphabet
+          for(int q = 0; q < 26; q++) {
+          // if the letter of the message is equal to the letter of the alphabet, add randomNums[q] to the end of the vector
             if(message[j] == alphabet[q]) {
               encrypted.push_back(randomNums[q]);
             }
           }
         }
 
-        for(int z = 0; z < message.size(); z++) {
+        
+        for(int z = 0; z < encrypted.size(); z++) {
           cout << encrypted[z] << endl;
         }
           
