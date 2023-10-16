@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <iterator>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -98,6 +99,19 @@ int main () {
 
     }
 
+  vector<string> fileToNumVector(string fileName) {
+    vector<string> message;
+    string indigo;
+
+    fstream file(fileName);
+    if(file.is_open()) { 
+      while(getline(file, indigo)) {
+        message.push_back(indigo);
+      }
+    }
+
+    return message;
+  }
 
   vector<int> randomNums(int passSeed) {
         
@@ -161,7 +175,42 @@ int main () {
 
   void decrypt() {
 
-    cout << "decrypt";
+    string password;
+    string fileName;
+    vector<int> randomNumbers;
+    vector<string> fileNum;
+    int passSeed; 
+    vector<int> fileNumInt;
+
+    cout << "Type the name of the file you wish to decrypt. For example, \"text.txt" << endl;
+    cin >> fileName;
+    cout << "Type the password you want to use to decrypt the file." << endl;
+    cin >> password;
+
+    passSeed = passwordToNum(password);
+
+    randomNumbers = randomNums(passSeed);
+
+    fileNum = fileToNumVector(fileName);
+
+    for(int i = 0; i < fileNum.size(); i++) {
+      fileNumInt.push_back(stoi(fileNum[i]));
+      cout << fileNumInt[i] << endl;
+    }
+
+    
+    char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    string answer;
+
+    for(int z = 0; z < fileNumInt.size(); z++) {
+      for(int q = 0; q < randomNumbers.size(); q++) {
+        if(randomNumbers[q] == fileNumInt[z]) {
+          answer += alphabet[q];
+        }
+      }
+    }
+
+    cout << answer;
 
     
   }
