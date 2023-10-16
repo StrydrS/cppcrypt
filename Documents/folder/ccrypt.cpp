@@ -61,9 +61,9 @@ int main () {
     const unsigned int letter_to_value[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36};
     
     // nested for loop, iterates the 26 letters of the alphabet as well as the length of the password string. Adds value of the letter to passSeed, which is passed back to the original calling function
-    for(int j = 0; j < 26; j++) {
-      for(int i = 0; i < len; i++) {
-        if(pass[i] = alphabet[j]) {
+    for(int i = 0; i < len; i++) {
+      for(int j = 0; j < 26; j++) {
+        if(pass[i] == alphabet[j]) {
           passSeed += letter_to_value[j];
         }
       }
@@ -143,12 +143,6 @@ int main () {
             }
           }
         }
-
-        
-        for(int z = 0; z < encrypted.size(); z++) {
-          cout << encrypted[z] << endl;
-        }
-          
         
         
     }
