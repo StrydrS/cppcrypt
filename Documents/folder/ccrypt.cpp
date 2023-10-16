@@ -2,9 +2,10 @@
 #include <string>
 #include <cctype>
 #include <cstring>
-#include <bits/stdc++.h> 
 #include <fstream>
 #include <stdlib.h>
+#include <iterator>
+#include <vector>
 
 using namespace std;
 
@@ -98,16 +99,32 @@ int main () {
     }
 
 
+  vector<int> randomNums(int passSeed) {
+        
+        int randomSeed;
+        vector<int> randomNumbers;
+
+        srand(passSeed);
+        randomSeed = rand();
+
+        for(int i = 0; i < 26; i++) {
+          randomNumbers.push_back(rand());
+        }
+
+
+        return randomNumbers;
+
+  }
+
   void encrypt() {
 
     // defines local variables to be used by the encrypt function
         string fileName;
         string password;
         int passSeed;
-        int randomSeed;
-        vector<char> message;
-        vector<int> randomNums;
         vector<int> encrypted;
+        vector<char> message;
+        vector<int> randomNumbers;
 
         char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
@@ -121,17 +138,9 @@ int main () {
         // sets the value of the integer passSeed to the value returned by the passwordToNum function
         passSeed = passwordToNum(password);
 
-        //uses passSeed as a parameter for the srand function, setting the seed for the rand function
-        srand(passSeed);
-        randomSeed = rand();
-
-        // message is now a char vector containing each individual character of the text file. 
         message = fileToVector(fileName);
 
-        //fills vector with seeded random numbers
-        for(int i = 0; i < 26; i++) {
-          randomNums.push_back(rand());
-        }
+        randomNumbers = randomNums(passSeed);
         
         //iterates each letter of the message
         for(int j = 0; j < message.size(); j++) { 
@@ -139,12 +148,15 @@ int main () {
           for(int q = 0; q < 26; q++) {
           // if the letter of the message is equal to the letter of the alphabet, add randomNums[q] to the end of the vector
             if(message[j] == alphabet[q]) {
-              encrypted.push_back(randomNums[q]);
+              encrypted.push_back(randomNumbers[q]);
             }
           }
         }
-        
-        
+
+        ofstream outputFile("./output.txt");
+        ostream_iterator<int> output_iterator(outputFile, "\n");
+        copy(encrypted.begin(), encrypted.end(), output_iterator);
+
     }
 
   void decrypt() {
