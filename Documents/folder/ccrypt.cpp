@@ -57,14 +57,16 @@ int main () {
     int len = pass.size();
 
     // char array with each letter of the alphabet
-    char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+    ' ', '!', '@', '#', '$', '%', '^', '&' , '*', '(', ')', ',', '.', '/', ':', ';', '[', ']', '-', '+', '|', '0', '1', '2', '3','4', '5', '6', '7', '8', '9'};
 
-    // unsigned int array with values 10-36, to assign value to each letter of the alphabet
-    const unsigned int letter_to_value[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36};
+    // unsigned int array with values 10-67, to assign value to each letter of the alphabet
+    const unsigned int letter_to_value[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+    44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67};
     
     // nested for loop, iterates the 26 letters of the alphabet as well as the length of the password string. Adds value of the letter to passSeed, which is passed back to the original calling function
     for(int i = 0; i < len; i++) {
-      for(int j = 0; j < 26; j++) {
+      for(int j = 0; j < 57; j++) {
         if(pass[i] == alphabet[j]) {
           passSeed += letter_to_value[j];
         }
@@ -121,7 +123,7 @@ int main () {
         srand(passSeed);
         randomSeed = rand();
 
-        for(int i = 0; i < 26; i++) {
+        for(int i = 0; i < 57; i++) {
           randomNumbers.push_back(rand());
         }
 
@@ -130,50 +132,7 @@ int main () {
 
   }
 
-  void encrypt() {
-
-    // defines local variables to be used by the encrypt function
-        string fileName;
-        string password;
-        int passSeed;
-        vector<int> encrypted;
-        vector<char> message;
-        vector<int> randomNumbers;
-
-        char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-
-
-        // prompts user for input for fileName and password
-        cout << "Type the name of the file you wish to encrypt. For example, \"text.exe\"" << endl;
-        cin >> fileName;
-        cout << "Type the password you want to use to decrypt the file." << endl;
-        cin >> password;
-
-        // sets the value of the integer passSeed to the value returned by the passwordToNum function
-        passSeed = passwordToNum(password);
-
-        message = fileToVector(fileName);
-
-        randomNumbers = randomNums(passSeed);
-        
-        //iterates each letter of the message
-        for(int j = 0; j < message.size(); j++) { 
-          //iterates each letter of the alphabet
-          for(int q = 0; q < 26; q++) {
-          // if the letter of the message is equal to the letter of the alphabet, add randomNums[q] to the end of the vector
-            if(message[j] == alphabet[q]) {
-              encrypted.push_back(randomNumbers[q]);
-            }
-          }
-        }
-
-        ofstream outputFile("./output.txt");
-        ostream_iterator<int> output_iterator(outputFile, "\n");
-        copy(encrypted.begin(), encrypted.end(), output_iterator);
-
-    }
-
-  void decrypt() {
+   void decrypt() {
 
     string password;
     string fileName;
@@ -199,7 +158,9 @@ int main () {
     }
 
     
-    char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+    ' ', '!', '@', '#', '$', '%', '^', '&' , '*', '(', ')', ',', '.', '/', ':', ';', '[', ']', '-', '+', '|', '0', '1', '2', '3','4', '5', '6', '7', '8', '9'};
+
     string answer;
 
     for(int z = 0; z < fileNumInt.size(); z++) {
@@ -214,3 +175,62 @@ int main () {
 
     
   }
+  
+  void encrypt() {
+
+    // defines local variables to be used by the encrypt function
+        string fileName;
+        string password;
+        int passSeed;
+        vector<int> encrypted;
+        vector<char> message;
+        vector<int> randomNumbers;
+
+        char alphabet[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+    ' ', '!', '@', '#', '$', '%', '^', '&' , '*', '(', ')', ',', '.', '/', ':', ';', '[', ']', '-', '+', '|', '0', '1', '2', '3','4', '5', '6', '7', '8', '9'};
+
+
+        // prompts user for input for fileName and password
+        cout << "Type the name of the file you wish to encrypt. For example, \"text.exe\"" << endl;
+        cin >> fileName;
+        cout << "Type the password you want to use to decrypt the file." << endl;
+        cin >> password;
+
+        // sets the value of the integer passSeed to the value returned by the passwordToNum function
+        passSeed = passwordToNum(password);
+
+        message = fileToVector(fileName);
+
+        randomNumbers = randomNums(passSeed);
+        
+        //iterates each letter of the message
+        for(int j = 0; j < message.size(); j++) { 
+          //iterates each letter of the alphabet
+          for(int q = 0; q < 57; q++) {
+          // if the letter of the message is equal to the letter of the alphabet, add randomNums[q] to the end of the vector
+            if(message[j] == alphabet[q]) {
+              encrypted.push_back(randomNumbers[q]);
+            }
+          }
+        }
+
+        ofstream outputFile("./output.txt");
+        ostream_iterator<int> output_iterator(outputFile, "\n");
+        copy(encrypted.begin(), encrypted.end(), output_iterator);
+
+        char anz;
+        cout << "File has been encrypted. output.txt is your encrypted file. Restart the program and decrypt? y or n";
+        cin >> anz;
+        if(anz == 'y') { 
+          decrypt();
+        }
+        else if(anz == 'n') {
+          cout << "exiting the program.";
+        }
+        else { 
+          cout << "invalid input. exiting program";
+        }
+
+    }
+
+ 
